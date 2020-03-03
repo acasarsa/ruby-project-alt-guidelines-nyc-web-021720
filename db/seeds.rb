@@ -1,0 +1,22 @@
+apple = Product.create(name:"apple")
+pear = Product.create(name:"pear")
+onion = Product.create(name:"onion")
+carrot = Product.create(name:"carrot")
+grape = Product.create(name:"grape")
+strawberry = Product.create(name:"strawberry")
+celery = Product.create(name:"celery")
+tomato = Product.create(name:"tomato")
+potato = Product.create(name:"potato")
+egg = Product.create(name:"egg")
+
+v1 = Vendor.create(name:"Happy Vendors")
+v2 = Vendor.create(name:"Middle Management")
+v3 = Vendor.create(name:"Darth's Corner Store")
+v4 = Vendor.create(name:"Luke's")
+
+entry1 = InventoryEntry.create(product_id: carrot.id, vendor_id: v1.id, inventory: 25, price: 2.00)
+entry2 = InventoryEntry.create(product_id: pear.id, vendor_id: v1.id, inventory: 20, price: 4.00)
+entry3 = InventoryEntry.create(product_id: egg.id, vendor_id: v2.id, inventory: 50, price: 1.50)
+entry4 = InventoryEntry.create(product_id: onion.id, vendor_id: v2.id, inventory: 50, price: 0.89)
+entry5 = InventoryEntry.create(product_id: egg.id, vendor_id: v3.id, inventory: 50, price: 0.50)
+
