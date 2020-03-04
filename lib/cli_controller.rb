@@ -23,7 +23,6 @@ def start_program
             {name: 'Delete', value: 3},
             {name: 'View all', value: 4}
         ]
-        prompt_vendor = TTY::Prompt.new # creates instance of prompt
         vendor_response = prompt.select('Please select a Vendor option:', option_choices)
         # filter user response and call appropriate method    
         case vendor_response
@@ -33,13 +32,21 @@ def start_program
                 create_vendor(new_vendor)
             when 2
                 #update vendor
+                pick_vendor = prompt.select('Which vendor do you wish to update?', all_vendor_names, filter: true)
+                new_vendor_name = prompt.ask('What is the updated vendor name?')
+                update_vendor_name(pick_vendor, new_vendor_name)
+
             when 3
                 #delete vendor
+                pick_vendor = prompt.select('Which vendor do you wish to update?', all_vendor_names, filter: true)
+                delete_vendor_check = prompt.yes?("ARE YOU SURE YOU WANT TO DELETE '#{pick_vendor}?")
+                # if TRUE user selected they were sure they wanted to delete the vendor
+                if delete_vendor_check == true 
+                    delete_vendor(pick_vendor)
+                end
             when 4
                 #view all
-                puts "YOU SELECTED THE RIGHT ANSWER"
                 Vendor.all.each do |vendor_name|
-                    # binding.pry
                     puts vendor_name.name
                 end
         end 
