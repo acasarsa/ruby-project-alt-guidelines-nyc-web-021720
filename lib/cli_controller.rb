@@ -51,25 +51,39 @@ def start_program
                 end
         end 
     when 2
-        #create_product
+#create_product
         product_choices = [
             {name: 'Create', value: 1},
             {name: 'Update', value:2},
             {name: 'Delete', value: 3},
             {name: 'View all', value: 4}
         ]
-        prompt_product = TTY::Prompt.new # creates instance of prompt
         product_response = prompt.select('Please select a Product option:', product_choices)
 
-        case product_response
-            when 1
+        case product_response # if p_r == 1 do ...when 
+            when 1 # create was selected 
                 #create product
+                new_product = prompt.ask('What is the name of the Product?', default: ENV['USER'])
+                create_product(new_product)
             when 2
                 #update product
+                pick_product = prompt.select('Which Product do you wish to update?', all_product_names, filter: true)
+                new_product_name = prompt.ask('What is the updated Product name?')
+                update_product(pick_product, new_product_name)
             when 3
                 #delete product
+                pick_product = prompt.select('Which Product would you like to delete?', all_product_names, filter: true)
+                delete_product_check = prompt.yes?("ARE YOU SURE YOU WANT TO DELETE #{pick_product}")
+                if delete_product_check == true
+                    delete_product(pick_product)
+                end
+
             when 4
             #view all
+            Product.all.map do |p|
+                puts "#{p.name}"
+            end
+            
         end 
     when 3
         #create_purchase_order
@@ -79,7 +93,6 @@ def start_program
             {name: 'Delete', value: 3},
             {name: 'View all', value: 4}
         ]
-        prompt_po = TTY::Prompt.new # creates instance of prompt
         po_response = prompt.select('Please select a Purchase Order option:', po_choices)
 
         case po_response
