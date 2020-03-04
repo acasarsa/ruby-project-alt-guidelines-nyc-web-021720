@@ -1,12 +1,11 @@
 # Purchase Order Manager for a store product buyer
-    - keeps track of list of purchases from different vendors 
+## keeps track of list of purchases from different vendors 
     - can create new purchase orders
     - can create new vendors
     - can create new products
     - can get list of open/closed purchase orders
     - can get list of vendors
     - can get list of products
-    - can get list of 
 
 # Products
     - has many inventory entries
@@ -39,6 +38,8 @@
     - inventory management
     - column for suggested list price - in product
     - column for bulk price discount inside 'vendor_products'
+    - ability to repeat historical purchase orders 
+        stretch goal- repeat based on product type or vendor or date
 
 # User actions
     - see what vendors currently used
