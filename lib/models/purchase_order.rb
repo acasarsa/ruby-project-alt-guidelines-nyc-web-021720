@@ -1,4 +1,4 @@
-class InventoryEntry < ActiveRecord::Base
+class PurchaseOrder < ActiveRecord::Base
     belongs_to :product
     belongs_to :vendor
 end
