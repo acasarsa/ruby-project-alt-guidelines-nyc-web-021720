@@ -44,3 +44,6 @@
 # User actions
     - see what vendors currently used
     - see what # of products purchased
+
+# Stretch goal
+    - color things in terminal output

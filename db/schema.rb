@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 2020_03_04_183749) do
     t.float "unit_price"
     t.integer "quantity"
     t.boolean "processed"
-    t.date "order_date"
+    t.datetime "order_date"
     t.integer "total_unit_price"
     t.integer "vendor_id"
     t.integer "product_id"
