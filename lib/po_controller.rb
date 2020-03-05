@@ -51,15 +51,24 @@ def delete_product(product)
     Product.delete(product_to_delete)
 end
 
-# def find_product_by_name(product)
-#     find_product = Product.find_by name: product
-# end
+
 
 # call on Product or Vendor and returns object # may need this for :disabled ? to make delete error if processed
 def find_by_name(name)
     self.find_by name: name
 end
 # purchase_order methods
+
+def find_by_id(id)
+    self.find_by id: id
+end
+
+def all_purchase_order_numbers
+    PurchaseOrder.all.map do |order|
+        order.id
+    end
+end
+
 
 def all_processed_purchase_orders
     PurchaseOrder.all.select do |po|
@@ -80,6 +89,34 @@ def create_purchase_order(product, vendor, quantity, unit_price, order_date=Date
     PurchaseOrder.create(product_id: po_product.id, vendor_id: po_vendor.id, quantity: quantity, unit_price: unit_price, sku: sku, order_date: order_date, processed: false, total_unit_price: total(quantity, unit_price))
 end
 
+def update_po_vendor_name(po_id, vendor_name)
+    updated_vendor_name = Vendor.find_by_name(vendor_name)
+    updated_po = PurchaseOrder.find_by_id(po_id)
+    updated_po.vendor_id = updated_vendor_name.id
+    updated_po.save
+end
+
+def update_po_product_name(po_id, product_name)
+    updated_product_name = Product.find_by_name(product_name)
+    updated_po = PurchaseOrder.find_by_id(po_id)
+    updated_po.product_id = updated_product_name.id
+    updated_po.save
+end
+
+def update_po_quantity(po_id, new_quantity)
+    # updated_product_name = Product.find_by_name(product_name)
+    updated_po = PurchaseOrder.find_by_id(po_id)
+    updated_po.quantity = new_quantity
+    updated_po.save
+end
+
+def update_po_price(po_id, new_price)
+    # updated_product_name = Product.find_by_name(product_name)
+    updated_po = PurchaseOrder.find_by_id(po_id)
+    updated_po.unit_price = new_price
+    updated_po.save
+end
+
 
 def total(quantity, unit_price)
     quantity * unit_price
@@ -89,11 +126,11 @@ def sku
     rand(1e8...1e9).to_i
 end
 
-def processed_no_delete_error
-    # if 
-    # end
+# def processed_no_delete_error
+#     # if 
+#     # end
 
-end
+# end
 
 def get_most_recent_purchase_order
     PurchaseOrder.order("created_at").last
