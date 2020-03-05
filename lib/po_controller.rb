@@ -6,7 +6,6 @@ def create_vendor(vendor_name)
     Vendor.create(name: vendor_name)
 end 
 
-<<<<<<< HEAD
 def all_vendor_names
     # return list of all vendor names
     Vendor.all.map do |v|
@@ -27,8 +26,7 @@ def delete_vendor(vendor)
     puts "Vendor #{vendor} has been deleted."
     Vendor.delete(vendor_to_delete.id)
 end 
-=======
-# product po_controller
+# product_controller
 
 def all_product_names
     Product.all.map do |p|
@@ -41,16 +39,58 @@ def create_product(product_name)
 end
 
 def update_product(old_name, new_name)
-    update_product = Product.find_by name: old_name
+    update_product = Product.find_by_name(old_name) # abstracted 
     update_product.name = new_name
     update_product.save
 end
 
+
 def delete_product(product)
-    product_to_delete = Product.find_by name: product
+    product_to_delete = Product.find_by_name(product)
     puts "#{product} has been deleted"
     Product.delete(product_to_delete)
 end
 
+# def find_product_by_name(product)
+#     find_product = Product.find_by name: product
+# end
 
->>>>>>> 2d3a5e7b3cc96e3e0a07682347a2eaef02f5a003
+# call on Product or Vendor and returns object # may need this for :disabled ? to make delete error if processed
+def find_by_name(name)
+    self.find_by name: name
+end
+# purchase_order methods
+
+def all_processed_purchase_orders
+    PurchaseOrder.all.select do |po|
+        po.processed == true
+    end
+end
+
+def all_pending_purchase_orders
+    PurchaseOrder.all.select do |po|
+        po.processed == false
+    end
+end
+
+def create_purchase_order(product, vendor, quantity, unit_price, order_date=Date.today)
+    po_product = Product.find_by name: product
+    po_vendor = Vendor.find_by name: vendor
+    binding.pry
+    PurchaseOrder.create(product_id: po_product.id, vendor_id: po_vendor.id, quantity: quantity, unit_price: unit_price, sku: sku, order_date: order_date, processed: false, total_unit_price: total(quantity, unit_price))
+end
+
+
+def total(quantity, unit_price)
+    quantity * unit_price
+end
+
+def sku
+    rand(1e8...1e9).to_i
+end
+
+def processed_no_delete_error
+    # if 
+    # end
+
+end

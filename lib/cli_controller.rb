@@ -35,7 +35,6 @@ def start_program
                 pick_vendor = prompt.select('Which vendor do you wish to update?', all_vendor_names, filter: true)
                 new_vendor_name = prompt.ask('What is the updated vendor name?')
                 update_vendor_name(pick_vendor, new_vendor_name)
-
             when 3
                 #delete vendor
                 pick_vendor = prompt.select('Which vendor do you wish to update?', all_vendor_names, filter: true)
@@ -50,6 +49,7 @@ def start_program
                     puts vendor_name.name
                 end
         end 
+
     when 2
 #create_product
         product_choices = [
@@ -85,6 +85,7 @@ def start_program
             end
             
         end 
+
     when 3
         #create_purchase_order
         po_choices = [
@@ -98,6 +99,7 @@ def start_program
         case po_response
             when 1
                 #create po
+                # binding.pry
             when 2
                 #update po
             when 3
@@ -106,11 +108,5 @@ def start_program
             #view all
         end 
     end 
-
-
-
 end 
 
-
-# warriors = %w(Scorpion Kano Jax Kitana Raiden)
-# prompt.select('Choose your destiny?', warriors, filter: true)

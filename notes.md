@@ -27,12 +27,15 @@
 `    - add order processed`
 `    - add order date `
 `    - add processed state column for purchase order`
+    - user can set order to processed == true
+    
     - CRUD
         - product_order.where = date - returns all orders for that date
         - Create new vendor / product / purchase order
         - Read - view purchase orders
         - Update product info / vendor info / purchase order info (unless order isn't processed)
         - Delete vendor if no purchases have been made
+
     
 # Soft goals
     - inventory management
