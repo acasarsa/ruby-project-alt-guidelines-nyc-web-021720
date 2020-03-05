@@ -76,7 +76,7 @@ end
 def create_purchase_order(product, vendor, quantity, unit_price, order_date=Date.today)
     po_product = Product.find_by name: product
     po_vendor = Vendor.find_by name: vendor
-    binding.pry
+
     PurchaseOrder.create(product_id: po_product.id, vendor_id: po_vendor.id, quantity: quantity, unit_price: unit_price, sku: sku, order_date: order_date, processed: false, total_unit_price: total(quantity, unit_price))
 end
 
@@ -94,3 +94,28 @@ def processed_no_delete_error
     # end
 
 end
+
+def get_most_recent_purchase_order
+    PurchaseOrder.order("created_at").last
+    # binding.pry
+end
+
+##
+
+def bad_seed_data
+    PurchaseOrder.all.select do |order|
+        order.vendor_id == 0 || order.vendor_id == nil 
+    end
+end
+
+def delete(bad_seed_data)
+    bad_seed_data.each do |obj|
+        PurchaseOrder.destroy(obj.id)
+    end
+end
+
+
+
+# def purchase_order_prompts
+#     prompt.ask("Please select a Product")
+# end
