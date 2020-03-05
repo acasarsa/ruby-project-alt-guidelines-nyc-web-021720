@@ -11,7 +11,7 @@ def start_program
         {name: 'Product options', value: 2},
         {name: 'Purchase Order options', value: 3}
         ]
-    prompt = TTY::Prompt.new # creates instance of prompt
+    prompt = TTY::Prompt.new(symbols: {marker: '👉'}) # creates instance of prompt
     response = prompt.select('Welcome, please select an option:', choices) # execute prompt to user
     
     # filter user response and call appropriate method
@@ -33,7 +33,7 @@ def start_program
             when 2
                 #update vendor
                 pick_vendor = prompt.select('Which vendor do you wish to update?', all_vendor_names, filter: true)
-                new_vendor_name = prompt.ask('What is the updated vendor name?')
+                new_vendor_name = prompt.ask('What is the updated vendor name?', required: true)
                 update_vendor_name(pick_vendor, new_vendor_name)
             when 3
                 #delete vendor
@@ -68,7 +68,7 @@ def start_program
             when 2
                 #update product
                 pick_product = prompt.select('Which Product do you wish to update?', all_product_names, filter: true)
-                new_product_name = prompt.ask('What is the updated Product name?')
+                new_product_name = prompt.ask('What is the updated Product name?', required: true)
                 update_product(pick_product, new_product_name)
             when 3
                 #delete product
@@ -99,13 +99,31 @@ def start_program
         case po_response
             when 1
                 #create po
-                # binding.pry
+                
+                product_name = prompt.select("Select your Produc:", all_product_names, filter: true)
+                vendor_name = prompt.select("Select your Vendor:", all_vendor_names, filter: true)
+                quantity = prompt.ask("Enter Unit Quantity:") do |q|
+                    q.validate /[1-9]/
+                end
+                unit_price = prompt.ask("Enter Unit Price:") do |price|
+                    price.required :true
+                    price.convert :float
+                    price.validate /[0-9]/
+                end
+                create_purchase_order(product_name, vendor_name, quantity, unit_price)
+
+                new_po = get_most_recent_purchase_order
+                puts "Purchase Order ##{new_po.id} created."
             when 2
                 #update po
+                update_purchase_order = prompt.select()
             when 3
                 #delete po
             when 4
             #view all
+            PurchaseOrder.all.map do |order|
+                puts 
+            end
         end 
     end 
 end 
