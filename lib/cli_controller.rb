@@ -119,7 +119,9 @@ def start_program
                 create_purchase_order(product_name, vendor_name, quantity, unit_price)
 
                 new_po = get_most_recent_purchase_order
-                puts "Purchase Order ##{new_po.id} created.\n".bold.magenta
+                puts "\nPurchase Order ##{new_po.id} created.".bold.magenta
+                print_out_po(new_po.id)
+
             when 2
                 #update po
                 update_purchase_order = prompt.select("Select Order Number to Update:\n".yellow, all_purchase_order_numbers.sort.reverse, filter: true) #

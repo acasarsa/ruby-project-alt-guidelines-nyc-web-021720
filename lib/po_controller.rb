@@ -123,7 +123,7 @@ end
 
 
 def total(quantity, unit_price)
-    quantity * unit_price
+    quantity.to_i * unit_price.to_f
 end
 
 def sku
@@ -162,6 +162,7 @@ end
 def print_out_po(po_id)
     po_instance = PurchaseOrder.find_by_id(po_id)
     puts ""
+    puts "Order Number:".bold.blue + " #{po_instance.id}".green
     puts "Order Date:".bold.blue + " #{po_instance.order_date}".green
     puts "Vendor:".bold.blue + " #{Vendor.find_by_id(po_instance.vendor_id).name}".green
     puts "Product Sku:".bold.blue + " #{po_instance.sku}".green
