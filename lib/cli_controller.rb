@@ -167,19 +167,7 @@ def start_program
                 #view specific order
                 
                 view_purchase_order = prompt.select("Select Order Number to view:"+"\n", all_purchase_order_numbers.sort.reverse, filter: true)
-                print_out_po(view_purchase_order)
-                # po_instance = PurchaseOrder.find_by_id(view_purchase_order)
-                # puts ""
-                # puts "Order Date: #{po_instance.order_date}"
-                # puts "Vendor: #{Vendor.find_by_id(po_instance.vendor_id).name}"
-                # puts "Product: #{Product.find_by_id(po_instance.product_id).name}"
-                # puts "Product Sku: #{po_instance.sku}"
-                # puts "Order Quantity: #{po_instance.quantity}"
-                # puts "Unit Price: #{po_instance.unit_price}"
-                # puts "Order total: $#{po_instance.total_unit_price}"
-
-
-            
+                print_out_po(view_purchase_order)            
         end 
     when 4
         $exit_program_boolean = true

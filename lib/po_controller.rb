@@ -166,7 +166,7 @@ def print_out_po(po_id)
     puts "Product Sku: #{po_instance.sku}"
     puts "Product: #{Product.find_by_id(po_instance.product_id).name}"
     puts "Order Quantity: #{po_instance.quantity}"
-    puts "Unit Price: #{po_instance.unit_price}"
+    puts "Unit Price: $#{po_instance.unit_price}"
     puts "Order total: $#{po_instance.total_unit_price}"
 end 
 
