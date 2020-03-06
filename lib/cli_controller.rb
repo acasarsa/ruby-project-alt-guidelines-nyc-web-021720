@@ -7,39 +7,41 @@ def start_program
 
     # create an array of hashes that will be user options w/ returning value
     choices = [
-        {name: 'Vendor options', value: 1},
-        {name: 'Product options', value: 2},
-        {name: 'Purchase Order options', value: 3},
+        {name: 'Vendor options'+"\n", value: 1},
+        {name: 'Product options'+"\n", value: 2},
+        {name: 'Purchase Order options'+"\n", value: 3},
         {name: 'Exit Program', value: 4}
         ]
     prompt = TTY::Prompt.new(symbols: {marker: '👉'}) # creates instance of prompt
-    response = prompt.select('Welcome, please select an option:', choices) # execute prompt to user
+    response = prompt.select('Welcome, please select an option:' + "\n", choices) # execute prompt to user
     
     # filter user response and call appropriate method
     case response
     when 1
         option_choices = [
-            {name: 'Create', value: 1},
-            {name: 'Update', value:2},
-            {name: 'Delete', value: 3},
-            {name: 'View all', value: 4}
+            {name: 'Create'+"\n", value: 1},
+            {name: 'Update'+"\n", value:2},
+            {name: 'Delete'+"\n", value: 3}, 
+            {name: 'View all'+"\n", value: 4}
         ]
-        vendor_response = prompt.select('Please select a Vendor option:', option_choices)
+        vendor_response = prompt.select('Please select a Vendor option:'+"\n", option_choices)
         # filter user response and call appropriate method    
         case vendor_response
             when 1
                 #create vendor
-                new_vendor = prompt.ask('What is the name of the Vendor?', default: ENV['USER'])
+                new_vendor = prompt.ask('What is the name of the Vendor?'+"\n", default: ENV['USER'])
                 create_vendor(new_vendor)
             when 2
                 #update vendor
-                pick_vendor = prompt.select('Which vendor do you wish to update?', all_vendor_names, filter: true)
-                new_vendor_name = prompt.ask('What is the updated vendor name?', required: true)
+                pick_vendor = prompt.select('Which vendor do you wish to update?'+"\n", all_vendor_names, filter: true)
+                new_vendor_name = prompt.ask('What is the updated vendor name?'+"\n", required: true)
                 update_vendor_name(pick_vendor, new_vendor_name)
             when 3
                 #delete vendor
                 pick_vendor = prompt.select('Which vendor do you wish to update?', all_vendor_names, filter: true)
-                delete_vendor_check = prompt.yes?("ARE YOU SURE YOU WANT TO DELETE '#{pick_vendor}?")
+                delete_vendor_check = prompt.yes?("ARE YOU SURE YOU WANT TO DELETE #{pick_vendor}?"+"\n", help_color: :red)
+                    # can stick prompt.warn inside the () but it repeats the phrase once in yellow once in white.
+
                 # if TRUE user selected they were sure they wanted to delete the vendor
                 if delete_vendor_check == true 
                     delete_vendor(pick_vendor)
@@ -116,7 +118,7 @@ def start_program
                 puts "Purchase Order ##{new_po.id} created."
             when 2
                 #update po
-                update_purchase_order = prompt.select("Select Order Number to Update:", all_purchase_order_numbers.sort.reverse, filter: true)
+                update_purchase_order = prompt.select("Select Order Number to Update:", all_purchase_order_numbers.sort.reverse, filter: true) #
                 po_instance = PurchaseOrder.find_by_id(update_purchase_order)
                 choices = [
                     {name: "Vendor", value: 1},
@@ -136,7 +138,7 @@ def start_program
                         when 2
                             # Update Product on P/O
                             selected_product_name = Product.find_by_id(po_instance.product_id).name
-                            pick_product = prompt.ask("Current product on this P/O is #{selected_product_name}, select correct Product:", )
+                            pick_product = prompt.select("Current product on this P/O is #{selected_product_name}, select correct Product:", all_product_names, filter: true)
                             update_po_product_name(update_purchase_order, pick_product)
                             puts "Successfully updated Product name to #{pick_product}"
                         when 3
