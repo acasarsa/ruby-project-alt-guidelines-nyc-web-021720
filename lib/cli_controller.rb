@@ -13,7 +13,7 @@ def start_program
         {name: 'Exit Program'+"\n", value: 4}
         ]
     prompt = TTY::Prompt.new(symbols: {marker: '👉'}) # creates instance of prompt
-    response = prompt.select('Welcome, please select an option:' + "\n", choices) # execute prompt to user
+    response = prompt.select("\nWelcome, please select an option:\n", choices) # execute prompt to user
     
     # filter user response and call appropriate method
     case response
@@ -22,7 +22,7 @@ def start_program
             {name: 'Create'+"\n", value: 1},
             {name: 'Update'+"\n", value:2},
             {name: 'Delete'+"\n", value: 3}, 
-            {name: 'View all'+"\n", value: 4}
+            {name: "View all\n", value: 4}
         ]
         vendor_response = prompt.select('Please select a Vendor option:'+"\n", option_choices)
         # filter user response and call appropriate method    
@@ -59,7 +59,7 @@ def start_program
             {name: 'Create'+"\n", value: 1},
             {name: 'Update'+"\n", value:2},
             {name: 'Delete'+"\n", value: 3},
-            {name: 'View all'+"\n", value: 4}
+            {name: "View all\n", value: 4}
         ]
         product_response = prompt.select('Please select a Product option:'+"\n", product_choices)
 
@@ -84,8 +84,7 @@ def start_program
             when 4
             #view all
             Product.all.map do |p|
-                puts "#{p.name}"
-
+                puts p.name
             end
             
         end 
@@ -119,15 +118,15 @@ def start_program
                 puts "Purchase Order ##{new_po.id} created."+"\n"
             when 2
                 #update po
-                update_purchase_order = prompt.select("Select Order Number to Update:"+"\n", all_purchase_order_numbers.sort.reverse, filter: true) #
+                update_purchase_order = prompt.select("Select Order Number to Update:\n", all_purchase_order_numbers.sort.reverse, filter: true) #
                 po_instance = PurchaseOrder.find_by_id(update_purchase_order)
                 choices = [
-                    {name: "Vendor"+"\n", value: 1},
-                    {name: "Product"+"\n", value: 2},
-                    {name: "Quantity"+"\n", value: 3},
-                    {name: "Unit Price"+"\n", value: 4}
+                    {name: "Vendor\n", value: 1},
+                    {name: "Product\n", value: 2},
+                    {name: "Quantity\n", value: 3},
+                    {name: "Unit Price\n", value: 4}
                 ]
-                update_selection = prompt.select("What would you like to update?"+"\n", choices)
+                update_selection = prompt.select("What would you like to update?\n", choices)
                     case update_selection
                         when 1
                             # Update Vendor on P/O
@@ -145,36 +144,39 @@ def start_program
                         when 3
                             # Update Quantity on
                             selected_quantity = PurchaseOrder.find_by_id(update_purchase_order)
-                            quantity = prompt.ask("Current quantity is #{selected_quantity.quantity}. Enter New Unit Quantity:"+"\n") do |q|
+                            quantity = prompt.ask("Current quantity is #{selected_quantity.quantity}. Enter New Unit Quantity:") do |q|
                                 q.validate /[1-9]/
                             end
                             update_po_quantity(update_purchase_order, quantity)
                             puts "Successfully updated Quantity to #{quantity}"+"\n"
+                            print_out_po(update_purchase_order)
                         when 4
                             # Update unit_price
                             selected_unit_price = PurchaseOrder.find_by_id(update_purchase_order)
-                            unit_price = prompt.ask("Current Unit Price is #{selected_unit_price.unit_price}. Enter New Unit Price:"+"\n") do |price|
+                            unit_price = prompt.ask("Current Unit Price is #{selected_unit_price.unit_price}. Enter New Unit Price:") do |price|
                                 price.required :true
                                 price.convert :float
                                 price.validate /[0-9]/
                             end
                             update_po_price(update_purchase_order, unit_price)
                             puts "Successfully updated Price to #{unit_price}"+"\n"
+                            print_out_po(update_purchase_order)
                     end
 
             when 3
                 #view specific order
+                
                 view_purchase_order = prompt.select("Select Order Number to view:"+"\n", all_purchase_order_numbers.sort.reverse, filter: true)
-                po_instance = PurchaseOrder.find_by_id(view_purchase_order)
-                # binding.pry
-                puts ""
-                puts "Order Date: #{po_instance.order_date}"+"\n\n"
-                puts "Vendor: #{Vendor.find_by_id(po_instance.vendor_id).name}"+"\n\n"
-                puts "Product: #{Product.find_by_id(po_instance.product_id).name}"+"\n\n"
-                puts "Product Sku: #{po_instance.sku}"+"\n\n"
-                puts "Order Quantity: #{po_instance.quantity}"+"\n\n"
-                puts "Unit Price: #{po_instance.unit_price}"+"\n\n"
-                # puts "Order total: #{po_instance.total_unit_price}"
+                print_out_po(view_purchase_order)
+                # po_instance = PurchaseOrder.find_by_id(view_purchase_order)
+                # puts ""
+                # puts "Order Date: #{po_instance.order_date}"
+                # puts "Vendor: #{Vendor.find_by_id(po_instance.vendor_id).name}"
+                # puts "Product: #{Product.find_by_id(po_instance.product_id).name}"
+                # puts "Product Sku: #{po_instance.sku}"
+                # puts "Order Quantity: #{po_instance.quantity}"
+                # puts "Unit Price: #{po_instance.unit_price}"
+                # puts "Order total: $#{po_instance.total_unit_price}"
 
 
             

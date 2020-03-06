@@ -107,6 +107,8 @@ def update_po_quantity(po_id, new_quantity)
     # updated_product_name = Product.find_by_name(product_name)
     updated_po = PurchaseOrder.find_by_id(po_id)
     updated_po.quantity = new_quantity
+    # binding.pry
+    updated_po.total_unit_price = total(new_quantity.to_i, updated_po.unit_price)
     updated_po.save
 end
 
@@ -114,6 +116,7 @@ def update_po_price(po_id, new_price)
     # updated_product_name = Product.find_by_name(product_name)
     updated_po = PurchaseOrder.find_by_id(po_id)
     updated_po.unit_price = new_price
+    updated_po.total_unit_price = total(updated_po.quantity, new_price.to_f)
     updated_po.save
 end
 
@@ -126,18 +129,22 @@ def sku
     rand(1e8...1e9).to_i
 end
 
-# def processed_no_delete_error
-#     # if 
-#     # end
-
-# end
-
 def get_most_recent_purchase_order
     PurchaseOrder.order("created_at").last
     # binding.pry
 end
 
-##
+def print_out_po(po_id)
+    po_instance = PurchaseOrder.find_by_id(po_id)
+    puts ""
+    puts "Order Date: #{po_instance.order_date}"
+    puts "Vendor: #{Vendor.find_by_id(po_instance.vendor_id).name}"
+    puts "Product Sku: #{po_instance.sku}"
+    puts "Product: #{Product.find_by_id(po_instance.product_id).name}"
+    puts "Order Quantity: #{po_instance.quantity}"
+    puts "Unit Price: #{po_instance.unit_price}"
+    puts "Order total: $#{po_instance.total_unit_price}"
+end 
 
 def bad_seed_data
     PurchaseOrder.all.select do |order|
