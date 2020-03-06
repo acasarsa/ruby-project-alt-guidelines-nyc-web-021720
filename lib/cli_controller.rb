@@ -131,7 +131,9 @@ def start_program
                     {name: "Unit Price\n", value: 4}
                 ]
                 update_selection = prompt.select("What would you like to update?\n".yellow, choices)
+
                     case update_selection
+                        
                         when 1
                             # Update Vendor on P/O
                             selected_vendor_name = Vendor.find_by_id(po_instance.vendor_id).name
