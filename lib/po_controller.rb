@@ -138,7 +138,8 @@ def get_most_recent_purchase_order
 end
 
 def banner 
-    box = TTY::Box.frame(width: 125, height: 17, border: :thick, align: :center) do
+    
+    box = TTY::Box.frame(width: 125, height: 17, border: :thick, align: :center, style: {fg: :green, border: {fg: :green}}) do
         "
         ██████╗ ██╗   ██╗██████╗  ██████╗██╗  ██╗ █████╗ ███████╗███████╗     ██████╗ ██████╗ ██████╗ ███████╗██████╗     
         ██╔══██╗██║   ██║██╔══██╗██╔════╝██║  ██║██╔══██╗██╔════╝██╔════╝    ██╔═══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗    
