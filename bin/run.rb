@@ -1,6 +1,7 @@
 require_relative '../config/environment'
 require "pry"
 
+banner
 # binding.pry
 $exit_program_boolean = false
 
