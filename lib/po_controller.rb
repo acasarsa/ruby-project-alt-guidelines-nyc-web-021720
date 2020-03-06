@@ -23,7 +23,7 @@ end
 def delete_vendor(vendor)
     #delete vendor by name
     vendor_to_delete = Vendor.find_by name: vendor
-    puts "Vendor #{vendor} has been deleted."
+    puts "\nVendor #{vendor} has been deleted.".red
     Vendor.delete(vendor_to_delete.id)
 end 
 # product_controller
@@ -47,7 +47,7 @@ end
 
 def delete_product(product)
     product_to_delete = Product.find_by_name(product)
-    puts "#{product} has been deleted"
+    puts "\n#{product} has been deleted".red
     Product.delete(product_to_delete)
 end
 
@@ -87,6 +87,7 @@ def create_purchase_order(product, vendor, quantity, unit_price, order_date=Date
     po_vendor = Vendor.find_by name: vendor
 
     PurchaseOrder.create(product_id: po_product.id, vendor_id: po_vendor.id, quantity: quantity, unit_price: unit_price, sku: sku, order_date: order_date, processed: false, total_unit_price: total(quantity, unit_price))
+    # PurchaseOrder.find_by_name()
 end
 
 def update_po_vendor_name(po_id, vendor_name)
@@ -161,13 +162,13 @@ end
 def print_out_po(po_id)
     po_instance = PurchaseOrder.find_by_id(po_id)
     puts ""
-    puts "Order Date: #{po_instance.order_date}"
-    puts "Vendor: #{Vendor.find_by_id(po_instance.vendor_id).name}"
-    puts "Product Sku: #{po_instance.sku}"
-    puts "Product: #{Product.find_by_id(po_instance.product_id).name}"
-    puts "Order Quantity: #{po_instance.quantity}"
-    puts "Unit Price: $#{po_instance.unit_price}"
-    puts "Order total: $#{po_instance.total_unit_price}"
+    puts "Order Date:".bold.blue + " #{po_instance.order_date}".green
+    puts "Vendor:".bold.blue + " #{Vendor.find_by_id(po_instance.vendor_id).name}".green
+    puts "Product Sku:".bold.blue + " #{po_instance.sku}".green
+    puts "Product:".bold.blue + " #{Product.find_by_id(po_instance.product_id).name}".green
+    puts "Order Quantity:".bold.blue + " #{po_instance.quantity}".green
+    puts "Unit Price:".bold.blue + " $#{po_instance.unit_price}".green
+    puts "Order Total:".bold.blue + " $#{po_instance.total_unit_price}".green
 end 
 
 def bad_seed_data
