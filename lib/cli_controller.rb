@@ -161,13 +161,13 @@ def start_program
                         when 4
                             # Update unit_price
                             selected_unit_price = PurchaseOrder.find_by_id(update_purchase_order)
-                            unit_price = prompt.ask("Current Unit Price is #{selected_unit_price.unit_price}. Enter New Unit Price:\n".yellow) do |price|
+                            unit_price = prompt.ask("Current Unit Price is $#{selected_unit_price.unit_price}. Enter New Unit Price:\n".yellow) do |price|
                                 price.required :true
                                 price.convert :float
                                 price.validate /[0-9]/
                             end
                             update_po_price(update_purchase_order, unit_price)
-                            puts "\n\nSuccessfully updated Price to #{unit_price}".bold.magenta
+                            puts "\n\nSuccessfully updated Price to $#{unit_price}".bold.magenta
                             print_out_po(update_purchase_order)
                     end
 
